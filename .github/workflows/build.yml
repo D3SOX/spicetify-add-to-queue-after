@@ -1,0 +1,58 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 10
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build extension
+        run: pnpm build-local
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spicetify-add-to-queue-after
+          path: dist
+
+      - name: Commit dist to master
+        if: github.ref == 'refs/heads/master'
+        env:
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          git fetch origin master
+          git checkout master
+          git pull --ff-only origin master
+          git add dist
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore(dist): update build output [skip ci]"
+          git push origin master

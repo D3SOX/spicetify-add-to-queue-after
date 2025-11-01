@@ -1,0 +1,15 @@
+[
+    {
+      "name": "Add to Queue After",
+      "description": "Add something to the queue after a specific track",
+      "preview": "https://raw.githubusercontent.com/D3SOX/spicetify-add-to-queue-after/master/preview.png",
+      "main": "dist/add-to-queue-after.js",
+      "authors": [
+        { "name": "D3SOX", "url": "https://github.com/D3SOX" }
+    ],
+    "readme": "README.md",
+    "tags": [
+      "queue"
+    ]
+    }
+  ]
