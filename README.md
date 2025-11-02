@@ -1,5 +1,7 @@
 # Spicetify Add to Queue After
 
+![Preview](preview.png)
+
 This extension adds a context menu option that lets you insert tracks, albums, or playlists into your queue after a specific position, rather than just adding them to the end.
 
 If you've ever wanted to queue something but have it play right after a particular track, this extension is for you.
