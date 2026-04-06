@@ -1,7 +1,7 @@
 type QueueTrack = {provider: string, contextTrack?: Spicetify.ContextTrack};
 
 async function main() {
-  while (!(Spicetify?.CosmosAsync && Spicetify?.Queue && Spicetify?.ContextMenu && Spicetify?.URI && Spicetify?.Platform)) {
+  while (!(Spicetify?.CosmosAsync && Spicetify?.Queue && Spicetify?.ContextMenu && Spicetify?.URI && Spicetify?.Platform && Spicetify?.GraphQL && Spicetify?.Locale)) {
     await new Promise(resolve => setTimeout(resolve, 100));
   }
 
@@ -30,9 +30,16 @@ async function main() {
   }
 
   async function fetchAlbum(uri: string): Promise<string[]> {
-    const albumId = uri.split(":")[2];
-    const res = await Spicetify.CosmosAsync.get(`https://api.spotify.com/v1/albums/${albumId}`);
-    return res.tracks.items.map((item: Spicetify.PlayerTrack) => item.uri);
+    const { getAlbumNameAndTracks } = Spicetify.GraphQL.Definitions;
+    const { errors, data } = await Spicetify.GraphQL.Request(getAlbumNameAndTracks, {
+      uri,
+      locale: Spicetify.Locale.getLocale(),
+      offset: 0,
+      limit: 50,
+    });
+
+    if (errors) throw new Error("No album info returned.");
+    return data.albumUnion.tracksV2.items.map((item: { track: Spicetify.PlayerTrack }) => item.track.uri);
   }
 
   async function fetchPlaylist(uri: string): Promise<string[]> {
