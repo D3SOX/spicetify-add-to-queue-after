@@ -1,3 +1,8 @@
+> [!WARNING]
+> I'm (finally) not using Spotify anymore. So this is unmaintained and provided "as is". Feel free to fork, fix, improve, etc...
+> 
+> If you're interested in switching to [Navidrome](https://github.com/navidrome/navidrome) too, take a look at my projects [Manida](https://github.com/D3SOX/Manida) (my music player which fixes all the stuff that annoyed me so much about Spotify and no other player does) and [sc-gate-dl](https://github.com/D3SOX/sc-gate-dl) (My tool to download from SoundCloud which will soon also include a migration wizard that works with Spotify data exports for moving to Navidrome)
+
 # Spicetify Add to Queue After
 
 ![Preview](preview.png)
